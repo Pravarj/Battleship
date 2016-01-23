@@ -6,7 +6,7 @@ package battleship;
 
 /**
  *
- * @author AndrewJSD9
+ * @author Pravar
  */
 
 import java.util.Scanner;
