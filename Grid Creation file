@@ -1,0 +1,738 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package battleship;
+
+/**
+ *
+ * @author AndrewJSD9
+ */
+import java.util.Random;
+import java.util.Scanner;
+
+public class createGrid {
+    public static int f;
+    public int num;
+    public int location;
+    public boolean flag;
+    public int[][] grid;
+    public int[][] enemyGrid;
+    public String[] letters = {"A|", "B|", "C|", "D|", "E|", "F|", "G|", "H|", 
+        "I|", "J"};
+    public Scanner scan = new Scanner(System.in);
+    public Random gen = new Random();  
+    
+//--------------------------------------------------------------------------
+// Creates the grid
+//--------------------------------------------------------------------------   
+    public void createGrid(){    
+        grid = new int[10][11];
+    }
+    
+//--------------------------------------------------------------------------
+// Prints the original grid of 0's
+//--------------------------------------------------------------------------   
+    public void printGrid(){
+        //prints letters
+        System.out.print("  ");
+        
+        for(int i = 0; i < letters.length; i++){
+             System.out.print(letters[i]);
+        }
+        System.out.println();
+        
+        //print rest of grid
+        for(int row = 0; row < grid.length; row++){
+            for(int col = 0; col < grid[row].length; col++){
+                grid[row][col] = 0;
+                for(int i = 0; i < grid.length; i++){
+                    grid[i][0] = i;
+                }
+                System.out.print(grid[row][col] + "|");           
+            }
+            
+            System.out.println();
+        }
+        
+    }   
+
+//--------------------------------------------------------------------------
+// Prints just letters A - J (aka the top row)
+//--------------------------------------------------------------------------   
+    public void printLetters(){
+        System.out.print("  ");
+        for(int i = 0; i < letters.length; i++){
+             System.out.print(letters[i]);
+        }         
+        System.out.println();
+    }
+    
+//--------------------------------------------------------------------------
+// Prints numbers 0 - 9 (aka the left row)
+//--------------------------------------------------------------------------  
+    public void printNumbers(){
+        for(int i = 0; i < 10; i++){
+            System.out.println(i);
+        }
+    }
+
+//--------------------------------------------------------------------------
+// Places the two piece, both three piece, the four piece, and the five  
+// piece ships, respectively.
+//--------------------------------------------------------------------------    
+    public void placeTwoPieceShips(){
+        System.out.println("What space would you like to place your patrol boat? (Example: A 1, not 1 A, A1 or 1A.)");
+        String letter = scan.next();
+        int num = scan.nextInt();
+        int location = 0;
+        if (letter.equals("a") || letter.equals("A")){
+            location = 1;
+        }
+        if (letter.equals("b") || letter.equals("B")){
+            location = 2;
+        }
+        if (letter.equals("c") || letter.equals("C")){
+            location = 3;
+        }
+        if (letter.equals("d") || letter.equals("D")){
+            location = 4;
+        }
+        if (letter.equals("e") || letter.equals("E")){
+            location = 5;
+        }
+        if (letter.equals("f") || letter.equals("F")){
+            location = 6;
+        }
+        if (letter.equals("g") || letter.equals("G")){
+            location = 7;
+        }
+        if (letter.equals("h") || letter.equals("H")){
+            location = 8;
+        }
+        if (letter.equals("i") || letter.equals("I")){
+            location = 9;
+        }
+        if (letter.equals("j") || letter.equals("J")){
+            location = 10;
+        }
+        System.out.println("It will face:\n0: Left\n1: Right\n2: Down\n3: Up");
+        int choice = scan.nextInt();
+        switch (choice){
+
+            case 0:
+            grid[num][location] = 1;
+            grid[num][(location-1)] = 1;
+            printGridCurrent();
+            break;
+
+            case 1:
+            grid[num][location] = 1;
+            grid[num][(location+1)] = 1;
+            printGridCurrent();
+            break;
+
+            case 2:
+            grid[num][location] = 1;
+            num++;
+            grid[num][location] = 1;
+            printGridCurrent();
+            break;
+
+            case 3:
+            grid[num][location] = 1;
+            num--;
+            grid[num][location] = 1;
+            printGridCurrent();
+            break;
+
+            default:
+            System.out.println("Sorry, invalid choice");
+        }
+    }
+    public void placeThreePieceShip(){
+        for(int t = 0; t < 2; t++){    
+            if (t == 0){
+                System.out.println("What space would you like to place your destroyer? (Example: A 1, not 1 A, A1 or 1A.)");
+            }
+            if (t == 1){
+                System.out.println("What space would you like to place your submarine? (Example: A 1, not 1 A, A1 or 1A.)");
+            }
+            String letter = scan.next();
+            int num = scan.nextInt();
+            int location = 0;
+            if (letter.equals("a") || letter.equals("A")){
+                location = 1;
+            }
+            if (letter.equals("b") || letter.equals("B")){
+                location = 2;
+            }
+            if (letter.equals("c") || letter.equals("C")){
+                location = 3;
+            }
+            if (letter.equals("d") || letter.equals("D")){
+                location = 4;
+            }
+            if (letter.equals("e") || letter.equals("E")){
+                location = 5;
+            }
+            if (letter.equals("f") || letter.equals("F")){
+                location = 6;
+            }
+            if (letter.equals("g") || letter.equals("G")){
+                location = 7;
+            }
+            if (letter.equals("h") || letter.equals("H")){
+                location = 8;
+            }
+            if (letter.equals("i") || letter.equals("I")){
+                location = 9;
+            }
+            if (letter.equals("j") || letter.equals("J")){
+                location = 10;
+            }
+            System.out.println("It will face:\n0: Left\n1: Right\n2: Down\n3: Up");
+            int choice = scan.nextInt();
+            switch (choice){
+
+                case 0:
+                grid[num][location] = t+2;
+                grid[num][location-1] = t+2;
+                grid[num][location-2] = t+2;
+                printGridCurrent();
+                break;
+
+                case 1:
+                grid[num][location] = t+2;
+                grid[num][location+1] = t+2;
+                grid[num][location+2] = t+2;
+                printGridCurrent();
+                break;
+
+                case 2:
+                grid[num][location] = t+2;
+                grid[num+1][location] = t+2;
+                grid[num+2][location] = t+2;
+                printGridCurrent();
+                break;
+
+                case 3:
+                grid[num][location] = t+2;
+                grid[num-1][location] = t+2;
+                grid[num-2][location] = t+2;
+                printGridCurrent();
+                break;
+
+                default:
+                System.out.println("Sorry, invalid choice");
+            }
+        }
+    }
+    public void placeFourPieceShip(){
+        System.out.println("What space would you like to place your battleship? (Example: A 1, not 1 A, A1 or 1A.)");
+        String letter = scan.next();
+        int num = scan.nextInt();
+        int location = 0;
+        if (letter.equals("a") || letter.equals("A")){
+            location = 1;
+        }
+        if (letter.equals("b") || letter.equals("B")){
+            location = 2;
+        }
+        if (letter.equals("c") || letter.equals("C")){
+            location = 3;
+        }
+        if (letter.equals("d") || letter.equals("D")){
+            location = 4;
+        }
+        if (letter.equals("e") || letter.equals("E")){
+            location = 5;
+        }
+        if (letter.equals("f") || letter.equals("F")){
+            location = 6;
+        }
+        if (letter.equals("g") || letter.equals("G")){
+            location = 7;
+        }
+        if (letter.equals("h") || letter.equals("H")){
+            location = 8;
+        }
+        if (letter.equals("i") || letter.equals("I")){
+            location = 9;
+        }
+        if (letter.equals("j") || letter.equals("J")){
+            location = 10;
+        }
+        System.out.println("It will face:\n0: Left\n1: Right\n2: Down\n3: Up");
+        int choice = scan.nextInt();
+        switch (choice){
+
+            case 0:
+            grid[num][location] = 4;
+            grid[num][location-1] = 4;
+            grid[num][location-2] = 4;
+            grid[num][location-3] = 4;
+            printGridCurrent();
+            break;
+
+            case 1:
+            grid[num][location] = 4;
+            grid[num][location+1] = 4;
+            grid[num][location+2] = 4;
+            grid[num][location+3] = 4;
+            printGridCurrent();
+            break;
+
+            case 2:
+            grid[num][location] = 4;
+            grid[num+1][location] = 4;
+            grid[num+2][location] = 4;
+            grid[num+3][location] = 4;
+            printGridCurrent();
+            break;
+
+            case 3:
+            grid[num][location] = 4;
+            grid[num-1][location] = 4;
+            grid[num-2][location] = 4;
+            grid[num-3][location] = 4;
+            printGridCurrent();
+            break;
+
+            default:
+            System.out.println("Sorry, invalid choice");
+        }
+        
+    }    
+    public void placeFivePieceShip(){
+        System.out.println("What space would you like to place your aircraft carrier? (Example: A 1, not 1 A, A1 or 1A.)");
+        String letter = scan.next();
+        int num = scan.nextInt();
+        int location = 0;
+        if (letter.equals("a") || letter.equals("A")){
+            location = 1;
+        }
+        if (letter.equals("b") || letter.equals("B")){
+            location = 2;
+        }
+        if (letter.equals("c") || letter.equals("C")){
+            location = 3;
+        }
+        if (letter.equals("d") || letter.equals("D")){
+            location = 4;
+        }
+        if (letter.equals("e") || letter.equals("E")){
+            location = 5;
+        }
+        if (letter.equals("f") || letter.equals("F")){
+            location = 6;
+        }
+        if (letter.equals("g") || letter.equals("G")){
+            location = 7;
+        }
+        if (letter.equals("h") || letter.equals("H")){
+            location = 8;
+        }
+        if (letter.equals("i") || letter.equals("I")){
+            location = 9;
+        }
+        if (letter.equals("j") || letter.equals("J")){
+            location = 10;
+        }
+        System.out.println("It will face:\n0: Left\n1: Right\n2: Down\n3: Up");
+        int choice = scan.nextInt();
+        switch (choice){
+
+            case 0:
+            grid[num][location] = 5;
+            grid[num][location-1] = 5;
+            grid[num][location-2] = 5;
+            grid[num][location-3] = 5;
+            grid[num][location-4] = 5;
+            printGridCurrent();
+            break;
+
+            case 1:
+            grid[num][location] = 5;
+            grid[num][location+1] = 5;
+            grid[num][location+2] = 5;
+            grid[num][location+3] = 5;
+            grid[num][location+4] = 5;
+            printGridCurrent();
+            break;
+
+            case 2:
+            grid[num][location] = 5;
+            grid[num+1][location] = 5;
+            grid[num+2][location] = 5;
+            grid[num+3][location] = 5;
+            grid[num+4][location] = 5;
+            printGridCurrent();
+            break;
+
+            case 3:
+            grid[num][location] = 5;
+            grid[num-1][location] = 5;
+            grid[num-2][location] = 5;
+            grid[num-3][location] = 5;
+            grid[num-4][location] = 5;
+            printGridCurrent();
+            break;
+
+            default:
+            System.out.println("Sorry, invalid choice");
+        }
+        
+    }
+
+//--------------------------------------------------------------------------
+// Prints the grid after any changes are made   
+//--------------------------------------------------------------------------        
+    public void printGridCurrent(){
+        System.out.print("  ");
+        for(int i = 0; i < letters.length; i++){
+            System.out.print(letters[i]);
+            }  
+        System.out.println();
+        for(int row = 0; row < grid.length; row++){
+            for(int col = 0; col < grid[row].length; col++){
+                System.out.print(grid[row][col] + "|");   
+            }
+            System.out.println();
+        }
+    }   
+
+//--------------------------------------------------------------------------
+// Creates enemy grid
+//--------------------------------------------------------------------------
+    public void createEnemyGrid(){    
+        enemyGrid = new int[10][11];
+    } 
+    
+//--------------------------------------------------------------------------
+// Prints enemy grid of 0's (not used in final code)
+//--------------------------------------------------------------------------    
+    public void printEnemyGrid(){
+        //prints letters
+        System.out.print("  ");
+        
+        for(int i = 0; i < letters.length; i++){
+             System.out.print(letters[i]);
+        }
+        System.out.println();
+        
+        //print rest of grid
+        for(int row = 0; row < enemyGrid.length; row++){
+            for(int col = 0; col < enemyGrid[row].length; col++){
+                enemyGrid[row][col] = 0;
+                for(int i = 0; i < enemyGrid.length; i++){
+                    enemyGrid[i][0] = i;
+                }
+                System.out.print(enemyGrid[row][col] + "|");           
+            }
+            
+            System.out.println();
+        }
+        
+    }      
+
+//--------------------------------------------------------------------------
+// Places the two piece, both three piece, the four piece, and the five  
+// piece enemy ships, respectively.
+//--------------------------------------------------------------------------
+    public void placeEnemyTwoPieceShips(){
+        flag = false;
+        int choice = gen.nextInt(2);
+        switch (choice){
+
+            case 0:
+            num = gen.nextInt(10);
+            location = gen.nextInt(9) + 1;
+            while (flag != true){
+                if(enemyGrid[num][location] == 0 && enemyGrid[num][location+1] == 0){
+                    enemyGrid[num][location] = 1;
+                    enemyGrid[num][location] = 1;
+                    flag = true;
+                }
+                else{
+                    num = gen.nextInt(10);
+                    location = gen.nextInt(9) + 1;
+                }
+            }
+            break;
+                   
+
+            case 1:
+            num = gen.nextInt(9);
+            location = gen.nextInt(10) + 1;
+            while (flag != true){
+                if(enemyGrid[num][location] == 0 && enemyGrid[num+1][location] == 0){
+                    enemyGrid[num+1][location] = 1;
+                    enemyGrid[num][location] = 1;
+                    flag = true;
+                }
+                else{
+                    num = gen.nextInt(9);
+                    location = gen.nextInt(10) + 1;
+                }
+            }
+            break;
+
+            default:
+            System.out.println("Sorry, invalid choice");
+        }
+    }   
+    public void placeEnemyThreePieceShip(){
+        
+        for(int t = 0; t < 2; t++){
+            flag = false;
+            switch (t){
+
+                case 0:
+                num = gen.nextInt(10);
+                location = gen.nextInt(8) + 1;
+                while (flag != true){
+                    if(enemyGrid[num][location] == 0 && enemyGrid[num][location+1] == 0 && enemyGrid[num][location+2] == 0){
+                        enemyGrid[num][location] = t + 2;
+                        enemyGrid[num][location+1] = t + 2;
+                        enemyGrid[num][location+2] = t + 2;
+                        flag = true;
+                    }
+                    else{
+                        num = gen.nextInt(10);
+                        location = gen.nextInt(8) + 1;
+                        }
+                }
+                break;
+
+                case 1:
+                num = gen.nextInt(8);
+                location = gen.nextInt(10) + 1;
+                while (flag != true){
+                    if(enemyGrid[num][location] == 0 && enemyGrid[num+1][location] == 0 && enemyGrid[num+2][location] == 0){
+                        enemyGrid[num][location] = t + 2;
+                        enemyGrid[num+1][location] = t + 2;
+                        enemyGrid[num+2][location] = t + 2;
+                        flag = true;
+                    }
+                    else{
+                        num = gen.nextInt(8);
+                        location = gen.nextInt(10) + 1;
+                    }
+                }
+                break;
+
+                default:
+                System.out.println("Sorry, invalid choice");
+            }
+        }
+    }   
+    public void placeEnemyFourPieceShip(){
+        flag = false;
+        int choice = gen.nextInt(2);
+        switch (choice){
+            
+            case 0:
+                num = gen.nextInt(10);
+                location = gen.nextInt(7) + 1;
+                while (flag != true){
+                    if(enemyGrid[num][location] == 0 && enemyGrid[num][location+1] == 0 && enemyGrid[num][location+2] == 0 && enemyGrid[num][location+3] == 0){
+                        enemyGrid[num][location] = 4;
+                        enemyGrid[num][location+1] = 4;
+                        enemyGrid[num][location+2] = 4;
+                        enemyGrid[num][location+3] = 4;
+                        flag = true;
+                    }
+                    else{
+                        num = gen.nextInt(10);
+                        location = gen.nextInt(7) + 1;
+                        }
+                }
+                break;
+
+                case 1:
+                num = gen.nextInt(10);
+                location = gen.nextInt(9) + 1;
+                while (flag != true){
+                    if(enemyGrid[num][location] == 0 && enemyGrid[num+1][location] == 0 && enemyGrid[num+2][location] == 0 && enemyGrid[num+3][location] == 0){
+                        enemyGrid[num][location] = 4;
+                        enemyGrid[num+1][location] = 4;
+                        enemyGrid[num+2][location] = 4;
+                        enemyGrid[num+3][location] = 4;
+                        flag = true;
+                    }
+                    else{
+                        num = gen.nextInt(7);
+                        location = gen.nextInt(10) + 1;
+                    }
+                }
+                break;
+
+            default:
+            System.out.println("Sorry, invalid choice");
+        }
+    }   
+    public void placeEnemyFivePieceShip(){
+        flag = false;
+        int choice = gen.nextInt(2);
+        switch (choice){
+
+            case 0:
+                num = gen.nextInt(10);
+                location = gen.nextInt(6) + 1;
+                while (flag != true){
+                    if(enemyGrid[num][location] == 0 && enemyGrid[num][location+1] == 0 && enemyGrid[num][location+2] == 0 && enemyGrid[num][location+3] == 0 && enemyGrid[num][location+4] == 0){
+                        enemyGrid[num][location] = 5;
+                        enemyGrid[num][location+1] = 5;
+                        enemyGrid[num][location+2] = 5;
+                        enemyGrid[num][location+3] = 5;
+                        enemyGrid[num][location+4] = 5;
+                        flag = true;
+                    }
+                    else{
+                        num = gen.nextInt(10);
+                        location = gen.nextInt(6) + 1;
+                        }
+                }
+                break;
+
+                case 1:
+                num = gen.nextInt(6);
+                location = gen.nextInt(10) + 1;
+                while (flag != true){
+                    if(enemyGrid[num][location] == 0 && enemyGrid[num+1][location] == 0 && enemyGrid[num+2][location] == 0 && enemyGrid[num+3][location] == 0 && enemyGrid[num+4][location] == 0){
+                        enemyGrid[num][location] = 5;
+                        enemyGrid[num+1][location] = 5;
+                        enemyGrid[num+2][location] = 5;
+                        enemyGrid[num+3][location] = 5;
+                        enemyGrid[num+4][location] = 5;
+                        flag = true;
+                    }
+                    else{
+                        num = gen.nextInt(6);
+                        location = gen.nextInt(10) + 1;
+                    }
+                }
+                break;
+                
+            default:
+            System.out.println("Sorry, invalid choice");
+        }
+    }       
+    
+//--------------------------------------------------------------------------
+// Print enemy grid after any changes are made (not used in final code)
+//--------------------------------------------------------------------------
+    public void printEnemyGridCurrent(){
+        System.out.print("  ");
+        for(int i = 0; i < letters.length; i++){
+            System.out.print(letters[i]);
+            }  
+        System.out.println();
+        for(int row = 0; row < enemyGrid.length; row++){
+            for(int col = 0; col < enemyGrid[row].length; col++){
+                System.out.print(enemyGrid[row][col] + "|");   
+            }
+            System.out.println();
+        }
+    }   
+
+//--------------------------------------------------------------------------
+// Tests to see if Human player's board has cleared entirely
+//--------------------------------------------------------------------------
+    public boolean testToSeeIfBoardIsClearHuman(){
+        boolean test = true;
+        for(int row = 0; row < grid.length; row++){
+            for(int col = 0; col < grid[row].length; col++){
+                if(grid[row][col] != 0){
+                    test = false;
+                }
+            }
+        }
+        if(test == true){
+            System.out.println("YOU'RE SHIPS ARE SUNK!!!");
+        }        
+        return test;
+    }  
+    
+//--------------------------------------------------------------------------
+// Tests to see if Computer player's board has cleared entirely
+//--------------------------------------------------------------------------    
+    public boolean testToSeeIfBoardIsClearEnemy(){
+        boolean test = true;
+        for(int row = 0; row < enemyGrid.length; row++){
+            for(int col = 0; col < enemyGrid[row].length; col++){
+                if(enemyGrid[row][col] != 0){
+                    test = false;
+                }
+            }
+        }
+        if(test == true){
+            System.out.println("CONGRATS, YOU'VE WON!!!");
+        }
+        return test;
+    }   
+    
+//--------------------------------------------------------------------------
+// Player shoots at a specific spot on the Computer board
+//--------------------------------------------------------------------------    
+    public void shootMissile(){
+        System.out.println("What space would you like to shoot on the enemy board? (Example: A 1, not 1 A, A1 or 1A.)");
+        String letter = scan.next();
+        int num = scan.nextInt();
+        int location = 0;
+        if (letter.equals("a") || letter.equals("A")){
+            location = 1;
+        }
+        if (letter.equals("b") || letter.equals("B")){
+            location = 2;
+        }
+        if (letter.equals("c") || letter.equals("C")){
+            location = 3;
+        }
+        if (letter.equals("d") || letter.equals("D")){
+            location = 4;
+        }
+        if (letter.equals("e") || letter.equals("E")){
+            location = 5;
+        }
+        if (letter.equals("f") || letter.equals("F")){
+            location = 6;
+        }
+        if (letter.equals("g") || letter.equals("G")){
+            location = 7;
+        }
+        if (letter.equals("h") || letter.equals("H")){
+            location = 8;
+        }
+        if (letter.equals("i") || letter.equals("I")){
+            location = 9;
+        }
+        if (letter.equals("j") || letter.equals("J")){
+            location = 10;
+        }
+        if (enemyGrid[num][location] != 0){
+            System.out.print ("You've hit, ");
+            enemyGrid[num][location] = 0;
+        }
+        else          
+            System.out.print("Oh no, you've missed, ");
+        
+    }   
+    
+//--------------------------------------------------------------------------
+// Computer shoots at a specific spot on the Player board
+//--------------------------------------------------------------------------    
+    public void shootMissileEnemy(){
+        num = gen.nextInt(10);
+        location = gen.nextInt(10) + 1;
+        if (grid[num][location] != 0){
+            System.out.println("and you've been hit at!");
+            grid[num][location] = 0;
+            System.out.println("Here is you're current grid:");
+            printGridCurrent();
+        }
+        else
+            System.out.println("and the enemy missed!");
+    }
+}
