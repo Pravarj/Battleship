@@ -1,0 +1,95 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package battleship;
+
+/**
+ *
+ * @author AndrewJSD9
+ */
+
+import java.util.Scanner;
+public class Battleship {
+    /**
+     * @param args the command line arguments
+     */
+    static createGrid create;  
+    public static void main(String[] args){
+        
+        Scanner scan = new Scanner(System.in);
+        printMenu();
+        int choice = scan.nextInt();
+        boolean attackSwitch = false;
+        while (attackSwitch != true){
+            setUp(choice);
+            printMenu();
+            choice = scan.nextInt();
+            if(choice == 3){
+                attackSwitch = true;
+            }
+        }
+            attackingPhase();
+    }
+//--------------------------------------
+// Do what the menu item calls for
+//--------------------------------------
+    public static void setUp(int choice){
+        switch(choice){
+            case 0:
+            System.out.println("Bye!");
+            break;
+
+            case 1:
+            create = new createGrid();
+            create.createGrid();
+            create.createEnemyGrid();
+            create.printGrid();
+            break;
+
+            case 2:
+            create.placeTwoPieceShips();
+            System.out.println("Here's your current grid:");
+            create.placeThreePieceShip();
+            System.out.println("Here's your current grid:");
+            create.placeFourPieceShip();
+            System.out.println("Here's your current grid:");
+            create.placeFivePieceShip();
+            System.out.println("Here's your current grid:");
+            create.placeEnemyTwoPieceShips();
+            create.placeEnemyThreePieceShip();
+            create.placeEnemyFourPieceShip();
+            create.placeEnemyFivePieceShip();
+            break;
+
+            default:
+            System.out.println("Sorry, invalid choice");
+            }
+        }    
+    
+//--------------------------------------------------------------------------
+// Attacks once the menu has finished all it's steps.
+//-------------------------------------------------------------------------- 
+    public static void attackingPhase(){
+        while(create.testToSeeIfBoardIsClearEnemy() == false && create.testToSeeIfBoardIsClearHuman() == false){
+            create.shootMissile();
+            create.shootMissileEnemy();
+            create.testToSeeIfBoardIsClearEnemy();
+            create.testToSeeIfBoardIsClearHuman();
+        }
+    }    
+    
+//-------------------------------------------------------------------------
+// The menu
+//-------------------------------------------------------------------------   
+    public static void printMenu(){
+    System.out.println("\nMenu");
+    System.out.println("====");
+    System.out.println("0: Quit");
+    System.out.println("1: Create and print starting grid");
+    System.out.println("2: Place ships");
+    System.out.println("3: Move on to battle!");
+            
+    System.out.print("\nEnter your choice: ");
+    }
+}
